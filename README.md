@@ -1,59 +1,81 @@
 # Full Stack Single Page Website
 
-In order to run this project you have to run both the back and frontend servers:
+A full-stack single page application with a Node.js/Express backend and React frontend, containerized with Docker.
 
-### `Backend`
+## Prerequisites
 
-Backend created using NodeJS and Express
+- [Docker](https://docs.docker.com/get-docker/) and Docker Compose installed
+- MongoDB Atlas account (or local MongoDB instance)
 
-### `npm run dev`
+## Quick Start
 
-#### `cd backend/`
+### 1. Configure Environment
 
-cd into `frontend` folder from the root directory of the repo
+Copy the example environment file and add your MongoDB connection string:
 
-#### `creat env file:`
+```bash
+cp .env.example .env
+```
 
-create `.env` file and store: `MONGODB_URL` and `PORT` variables
+Edit `.env` and set your `MONGODB_URL`:
 
-#### `steps on how to setup mongo for free`
+```
+MONGODB_URL=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/?appName=<app>
+```
 
-Click here -> [setup](https://www.mongodb.com/blog/post/quick-start-nodejs-mongodb-how-to-get-connected-to-your-database)
+Need a free MongoDB? [Set up MongoDB Atlas](https://www.mongodb.com/blog/post/quick-start-nodejs-mongodb-how-to-get-connected-to-your-database)
 
-#### `server link:`
+### 2. Run with Docker
 
-What you choose as your `PORT` will determine the server link, I had mine set at `8080`
+```bash
+docker compose up --build
+```
 
-#### `npm install`
+### 3. Access the Application
 
-Run `npm install` inside the backend folder in order to install all the packages
+- **Frontend:** [http://localhost](http://localhost)
+- **Backend API:** [http://localhost:5001](http://localhost:5001)
 
-#### npm run dev
+### 4. Seed Database (Optional)
 
-Run `npm run dev` To run the backend server, which will be served on: `http://localhost:8080` or `http://localhost:<What-ever-port-stored-on-env>`
+If you have images in `backend/uploads/` and need to populate the database:
 
-### API structure:
+```bash
+cd backend
+cp ../.env .
+npm install
+node seed.js
+```
 
-#### `POST:`
+## API Endpoints
 
-`http://localhost:8080/featured-brands` to upload images to the server with publish date
+| Method | Endpoint               | Description                           |
+| ------ | ---------------------- | ------------------------------------- |
+| POST   | `/featured-brands`     | Upload a brand image with title       |
+| GET    | `/featured-brands`     | Get all brands sorted by publish date |
+| DELETE | `/featured-brands/:id` | Delete a brand by ID                  |
 
-#### `GET:`
+## Project Structure
 
-`http://localhost:8080/featured-brands` to get brands filtered by date published
+```
+project-square/
+├── backend/
+│   ├── Dockerfile
+│   ├── index.js
+│   ├── models/
+│   ├── routes/
+│   └── uploads/
+├── frontend/
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   └── src/
+├── docker-compose.yml
+├── .env.example
+└── README.md
+```
 
-#### `DELETE:`
+## Tech Stack
 
-`http://localhost:8080/featured-brands/:id` to delete brands stored on server
-
-### `Frontend`
-
-Front end is in reactjs
-
-#### `cd frontend/`
-
-cd into `frontend` folder from the root directory of the repo
-
-#### `npm start`
-
-Run npm start to run the server which is on :[http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Backend:** Node.js, Express, Mongoose, MongoDB
+- **Frontend:** React
+- **Containerization:** Docker, Nginx

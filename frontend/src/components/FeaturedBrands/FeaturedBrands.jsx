@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 import axios from "axios";
-import './featured-brands.scss';
-import Header from '../Header/Header';
-import { useEffect, useState } from 'react';
+import "./featured-brands.scss";
+import Header from "../Header/Header";
+import { useEffect, useState } from "react";
 
 const FeaturedBrands = () => {
-
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -13,7 +12,7 @@ const FeaturedBrands = () => {
   }, []);
 
   const getImage = async () => {
-    const result = await axios.get("http://localhost:8080/featured-brands");
+    const result = await axios.get("/api/featured-brands");
     setImages(result.data.data);
   };
 
@@ -26,16 +25,12 @@ const FeaturedBrands = () => {
       <div className="image-list">
         {images.map((image) => (
           <div key={image._id}>
-            <img
-              src={`http://localhost:8080/uploads/${image.image}`}
-              alt={image.title}
-            />
-            {console.log(image)}
+            <img src={`/api/uploads/${image.image}`} alt={image.title} />
           </div>
         ))}
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default FeaturedBrands;
